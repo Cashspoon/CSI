@@ -1,2 +1,2 @@
 # CSI
-Files for CSI classes.
+Files for CSI courses.
