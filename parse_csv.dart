@@ -5,9 +5,16 @@ void main() {
   String contents = textFile.readAsStringSync();
   List<String> fileLines = contents.split('\n');
 
+  int threeCount = 0;
   for (String line in fileLines)
   {
-    int parsedNumber = int.parse(line);
-    print("Number is $parsedNumber");
+    List<String> fileWords = line.split('\n');
+    for (String word in fileWords)
+    {
+      int number = int.parse(word);
+      if (number == 3) threeCount++;
+    }
   }
+
+  print("Found $threeCount 3s in csv.");
 }
