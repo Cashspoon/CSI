@@ -1,20 +1,57 @@
 import 'dart:io';
 
-void main() {
-  File textFile = File("test.csv");
-  String contents = textFile.readAsStringSync();
-  List<String> fileLines = contents.split('\n');
+class Grid {
+  List<List<int>> grid = [];
 
-  int threeCount = 0;
-  for (String line in fileLines)
+  void readFromFile(String filename)
   {
-    List<String> fileWords = line.split('\n');
-    for (String word in fileWords)
+    File file = File("test.txt");
+    String contents = file.readAsStringSync();
+    List<String> fileLines = contents.split('\n');
+
+    for (String line in fileLines)
     {
-      int number = int.parse(word);
-      if (number == 3) threeCount++;
+      List<String> fileWords = line.split(' ');
+      List<int> numberList = [];
+      for (String word in fileWords)
+      {
+        int number = int.parse(word);
+        numberList.add(number);
+      }
+      grid.add(numberList);
     }
+    grid.removeAt(0);
   }
 
-  print("Found $threeCount 3s in csv.");
+  int countThree()
+  {
+    int threeCount = 0;
+    for (List<int> line in grid)
+    {
+      for (int num in line)
+      {
+        if (num == 3) threeCount++;
+      }
+    }
+    return threeCount;
+  }
+
+  @override
+  String toString()
+  {
+    String msg = '';
+
+    for (List<int> numberList in grid)
+    {
+      msg += "$numberList\n";
+    }
+
+    return msg;
+  }
+}
+
+void main() {
+  Grid grid = Grid();
+  grid.readFromFile("test.txt");
+  print("Found ${grid.countThree()} 3s in csv.");
 }
