@@ -79,16 +79,19 @@ class Grid
               grid[y][x] = districtNum;
             }
 
-            if (x + 1 < gridSize && (grid[y][x + 1] == -1 || grid[y][x + 1] == 0) )
+            if (!cellsToVisit.contains( (y, x + 1) ) && x + 1 < gridSize && (grid[y][x + 1] == -1 || grid[y][x + 1] == 0) )
             {
+              print("Adding cell to the right ($y,${x + 1})");
               cellsToVisit.add((y,x + 1));
             }
-            if (y + 1 < gridSize && (grid[y + 1][x] == -1 || grid[y + 1][x] == 0) )
+            if (!cellsToVisit.contains( (y + 1, x) ) && y + 1 < gridSize && (grid[y + 1][x] == -1 || grid[y + 1][x] == 0) )
             {
+              print("Adding cell to the bottom (${y + 1},$x)");
               cellsToVisit.add((y + 1,x));
             }
-            if (x - 1 >= 0 && (grid[y][x - 1] == -1 || grid[y][x - 1] == 0) )
+            if (!cellsToVisit.contains( (y, x - 1) ) && x - 1 >= 0 && (grid[y][x - 1] == -1 || grid[y][x - 1] == 0) )
             {
+              print("Adding cell to the left ($y,${x - 1})");
               cellsToVisit.add((y,x - 1));
             }
 
