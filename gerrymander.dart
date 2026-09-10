@@ -90,5 +90,7 @@ class Grid
 
 void main()
 {
-    //Grid myGrid = Grid(10);
+    Grid myGrid = Grid(10);
+    myGrid.GenerateRiver();
+    print(myGrid);
 }
