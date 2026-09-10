@@ -47,30 +47,55 @@ class Grid
         }
     }
 
-    void GenerateDistricts(int range)
+    void GenerateDistricts()
     {
         int districtAmount = gridSize - 1;
 
-        //List<(int,int)> visitedCells = [];
+        List<(int,int)> visitedCells = [];
         List<(int,int)> cellsToVisit = [];
 
-        for (int i = 1; i < districtAmount + 1; i++)
+        for (int districtNum = 1; districtNum < districtAmount + 1; districtNum++)
         {
-            for (int i = 0; i < grid.length; i++)
+          //Find first empty (-1) cell
+          for (int j = 0; j < grid.length; j++)
+          {
+              for (int k = 0; k < grid[j].length; k++)
+              {
+                  if (grid[j][k] == -1)
+                  {
+                      cellsToVisit.add((j,k));
+                  }
+              }
+          }
+
+          int fill = gridSize;
+          while (!cellsToVisit.isEmpty && fill > 0)
+          {
+            int y = cellsToVisit[0].$1;
+            int x = cellsToVisit[0].$2;
+
+            if (grid[y][x] == -1)
             {
-                for (int j = 0; j < grid[i].length; j++)
-                {
-                    if (grid[i][j] == -1)
-                    {
-                        cellsToVisit.add((i,j));
-                    }
-                }
+              grid[y][x] = districtNum;
             }
 
-            while (!cellsToVisit.isEmpty)
+            if (x + 1 < gridSize && (grid[y][x + 1] == -1 || grid[y][x + 1] == 0) )
             {
-
+              cellsToVisit.add((y,x + 1));
             }
+            if (y + 1 < gridSize && (grid[y + 1][x] == -1 || grid[y + 1][x] == 0) )
+            {
+              cellsToVisit.add((y + 1,x));
+            }
+            if (x - 1 >= 0 && (grid[y][x - 1] == -1 || grid[y][x - 1] == 0) )
+            {
+              cellsToVisit.add((y,x - 1));
+            }
+
+            visitedCells.add(cellsToVisit[0]);
+            cellsToVisit.removeAt(0);
+            fill--;
+          }
         }
     }
 
@@ -92,5 +117,7 @@ void main()
 {
     Grid myGrid = Grid(10);
     myGrid.GenerateRiver();
+    print(myGrid);
+    myGrid.GenerateDistricts();
     print(myGrid);
 }
