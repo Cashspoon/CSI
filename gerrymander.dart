@@ -47,6 +47,23 @@ class Grid
         }
     }
 
+    (int,int) FindNextEmptyCell()
+    {
+        //Find first empty (-1) cell
+        for (int j = 0; j < grid.length; j++)
+        {
+            for (int k = 0; k < grid[j].length; k++)
+            {
+                if (grid[j][k] == -1)
+                {
+                    return (j, k);
+                }
+            }
+        }
+
+        return (-1, -1);
+    }
+
     void GenerateDistricts(int amount)
     {
       int districtAmount = amount;
@@ -59,26 +76,30 @@ class Grid
         //Find first empty (-1) cell
         for (int j = 0; j < grid.length; j++)
         {
-            for (int k = 0; k < grid[j].length; k++)
+            (int, int) startCell = FindNextEmptyCell();
+            if (startCell.$1 != -1 && startCell.$2 != -1)
             {
-                if (grid[j][k] == -1)
-                {
-                    cellsToVisit.add((j,k));
-                    break;
-                }
-            }
-
-            if (!cellsToVisit.isEmpty)
-            {
-                break;
+                cellsToVisit.add(startCell);
             }
         }
 
         int fill = gridSize^2 ~/ districtAmount;
         print(fill);
-        while (!cellsToVisit.isEmpty && fill > 0)
+        while (fill > 0)
         {
-            print("Visiting new cell from $cellsToVisit");
+            //Get new cell
+            if (cellsToVisit.isEmpty)
+            {
+                (int, int) newCell = FindNextEmptyCell();
+                if (newCell.$1 != -1 && newCell.$2 != -1)
+                {
+                    cellsToVisit.add(newCell);
+                }
+                else
+                {
+                    return;
+                }
+            }
 
           int y = cellsToVisit[0].$1;
           int x = cellsToVisit[0].$2;
