@@ -64,75 +64,71 @@ class Grid
         return (-1, -1);
     }
 
-    void GenerateDistricts(int amount)
+    void GenerateDistricts(int range)
     {
-      int districtAmount = amount;
+        List<(int,int)> visitedCells = [];
+        List<(int,int)> cellsToVisit = [];
 
-      List<(int,int)> visitedCells = [];
-      List<(int,int)> cellsToVisit = [];
-
-      for (int districtNum = 1; districtNum < districtAmount + 1; districtNum++)
-      {
-        //Find first empty (-1) cell
-        for (int j = 0; j < grid.length; j++)
+        (int, int) startCell = FindNextEmptyCell();
+        if (startCell.$1 != -1 && startCell.$2 != -1)
         {
-            (int, int) startCell = FindNextEmptyCell();
-            if (startCell.$1 != -1 && startCell.$2 != -1)
-            {
-                cellsToVisit.add(startCell);
-            }
+            cellsToVisit.add(startCell);
+        }
+        else
+        {
+            print("No empty cell found to generate districts.");
+            return;
         }
 
-        int fill = gridSize^2 ~/ districtAmount;
-        print(fill);
-        while (fill > 0)
+        int districtNum = 1;
+        int fill = range;
+        bool isEmptyCell = true;
+        while (isEmptyCell)
         {
-            //Get new cell
-            if (cellsToVisit.isEmpty)
+            if (fill <= 0)
             {
-                (int, int) newCell = FindNextEmptyCell();
-                if (newCell.$1 != -1 && newCell.$2 != -1)
+                districtNum++;
+                fill = range;
+
+                cellsToVisit.clear();
+                (int, int) nextCell = FindNextEmptyCell();
+                if (startCell.$1 != -1 && startCell.$2 != -1)
                 {
-                    cellsToVisit.add(newCell);
+                    cellsToVisit.add(nextCell);
                 }
                 else
                 {
+                    print("No empty cell found to generate districts.");
                     return;
                 }
+            } 
+
+            int y = cellsToVisit[0].$1;
+            int x = cellsToVisit[0].$2;
+
+            if (grid[y][x] == -1)
+            {
+                grid[y][x] = districtNum;
             }
 
-          int y = cellsToVisit[0].$1;
-          int x = cellsToVisit[0].$2;
+            print("Visiting cell ${cellsToVisit[0]}");
+            if (!cellsToVisit.contains( (y, x + 1) ) && x + 1 < gridSize && grid[y][x + 1] < 1)
+            {
+                cellsToVisit.add((y,x + 1));
+            }
+            if (!cellsToVisit.contains( (y + 1, x) ) && y + 1 < gridSize && grid[y + 1][x] < 1 )
+            {
+                cellsToVisit.add((y + 1,x));
+            }
+                if (!cellsToVisit.contains( (y, x - 1) ) && x - 1 >= 0 && grid[y][x - 1] < 1 )
+            {
+                cellsToVisit.add((y,x - 1));
+            }
 
-          if (grid[y][x] == -1)
-          {
-            grid[y][x] = districtNum;
-          }
-
-          print("Visiting cell ${cellsToVisit[0]}");
-          if (!cellsToVisit.contains( (y, x + 1) ) && x + 1 < gridSize && grid[y][x + 1] < 1)
-          {
-            print("Adding cell to the right ($y,${x + 1})");
-            cellsToVisit.add((y,x + 1));
-          }
-          if (!cellsToVisit.contains( (y + 1, x) ) && y + 1 < gridSize && grid[y + 1][x] < 1 )
-          {
-            print("Adding cell bellow (${y + 1},$x)");
-            cellsToVisit.add((y + 1,x));
-          }
-          if (!cellsToVisit.contains( (y, x - 1) ) && x - 1 >= 0 && grid[y][x - 1] < 1 )
-          {
-            print("Adding cell to the left ($y,${x - 1})");
-            cellsToVisit.add((y,x - 1));
-          }
-
-          visitedCells.add(cellsToVisit[0]);
-          cellsToVisit.removeAt(0);
-          fill--;
+            visitedCells.add(cellsToVisit[0]);
+            cellsToVisit.removeAt(0);
+            fill--;
         }
-        print("District finished filling.");
-        cellsToVisit.clear();
-      }
     }
 
     @override
