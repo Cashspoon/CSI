@@ -49,7 +49,7 @@ class Grid
 
     void GenerateDistricts()
     {
-      int districtAmount = gridSize - 1;
+      int districtAmount = gridSize;
 
       List<(int,int)> visitedCells = [];
       List<(int,int)> cellsToVisit = [];
@@ -109,6 +109,7 @@ class Grid
           fill--;
         }
         print("District finished filling.");
+        cellsToVisit.clear();
       }
     }
 
