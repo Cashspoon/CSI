@@ -47,9 +47,9 @@ class Grid
         }
     }
 
-    void GenerateDistricts()
+    void GenerateDistricts(int amount)
     {
-      int districtAmount = gridSize;
+      int districtAmount = amount;
 
       List<(int,int)> visitedCells = [];
       List<(int,int)> cellsToVisit = [];
@@ -74,7 +74,8 @@ class Grid
             }
         }
 
-        int fill = gridSize;
+        int fill = gridSize^2 ~/ districtAmount;
+        print(fill);
         while (!cellsToVisit.isEmpty && fill > 0)
         {
             print("Visiting new cell from $cellsToVisit");
@@ -132,6 +133,6 @@ void main()
     Grid myGrid = Grid(10);
     myGrid.GenerateRiver();
     print(myGrid);
-    myGrid.GenerateDistricts();
+    myGrid.GenerateDistricts(9);
     print(myGrid);
 }
