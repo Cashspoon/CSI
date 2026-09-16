@@ -85,7 +85,7 @@ class Grid
         bool isEmptyCell = true;
         while (isEmptyCell)
         {
-            if (fill <= 0)
+            if (fill <= 0 || cellsToVisit.isEmpty)
             {
                 districtNum++;
                 fill = range;
@@ -106,22 +106,31 @@ class Grid
             int y = cellsToVisit[0].$1;
             int x = cellsToVisit[0].$2;
 
+            if (x == -1 || y == -1)
+            {
+                print("Districts generated.");
+                return;
+            }
+
             if (grid[y][x] == -1)
             {
                 grid[y][x] = districtNum;
             }
 
             print("Visiting cell ${cellsToVisit[0]}");
-            if (!cellsToVisit.contains( (y, x + 1) ) && x + 1 < gridSize && grid[y][x + 1] < 1)
+            if (x + 1 < gridSize && !cellsToVisit.contains( (y, x + 1) ) && grid[y][x + 1] < 1)
             {
+                print("Adding cell to the right");
                 cellsToVisit.add((y,x + 1));
             }
-            if (!cellsToVisit.contains( (y + 1, x) ) && y + 1 < gridSize && grid[y + 1][x] < 1 )
+            if (y + 1 < gridSize && !cellsToVisit.contains( (y + 1, x) ) && grid[y + 1][x] < 1 )
             {
+                print("Adding cell below");
                 cellsToVisit.add((y + 1,x));
             }
-                if (!cellsToVisit.contains( (y, x - 1) ) && x - 1 >= 0 && grid[y][x - 1] < 1 )
+                if (x - 1 >= 0 && !cellsToVisit.contains( (y, x - 1) ) && grid[y][x - 1] < 1 )
             {
+                print("Adding cell to the left");
                 cellsToVisit.add((y,x - 1));
             }
 
@@ -135,6 +144,8 @@ class Grid
     String toString()
     {
         String msg = '';
+
+        msg += "$gridSize\n";
 
         for (List<int> numberList in grid)
         {
