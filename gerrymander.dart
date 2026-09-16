@@ -115,28 +115,24 @@ class Grid
             if (grid[y][x] == -1)
             {
                 grid[y][x] = districtNum;
+                fill--;
             }
 
-            print("Visiting cell ${cellsToVisit[0]}");
             if (x + 1 < gridSize && !cellsToVisit.contains( (y, x + 1) ) && grid[y][x + 1] < 1)
             {
-                print("Adding cell to the right");
                 cellsToVisit.add((y,x + 1));
             }
             if (y + 1 < gridSize && !cellsToVisit.contains( (y + 1, x) ) && grid[y + 1][x] < 1 )
             {
-                print("Adding cell below");
                 cellsToVisit.add((y + 1,x));
             }
                 if (x - 1 >= 0 && !cellsToVisit.contains( (y, x - 1) ) && grid[y][x - 1] < 1 )
             {
-                print("Adding cell to the left");
                 cellsToVisit.add((y,x - 1));
             }
 
             visitedCells.add(cellsToVisit[0]);
             cellsToVisit.removeAt(0);
-            fill--;
         }
     }
 
@@ -161,6 +157,6 @@ void main()
     Grid myGrid = Grid(10);
     myGrid.GenerateRiver();
     print(myGrid);
-    myGrid.GenerateDistricts(9);
+    myGrid.GenerateDistricts(10);
     print(myGrid);
 }
