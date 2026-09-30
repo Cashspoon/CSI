@@ -85,7 +85,7 @@ class Grid
         bool isEmptyCell = true;
         while (isEmptyCell)
         {
-            if (fill <= 0 || cellsToVisit.isEmpty)
+            if (fill <= 0)
             {
                 districtNum++;
                 fill = range;
@@ -118,15 +118,15 @@ class Grid
                 fill--;
             }
 
-            if (x + 1 < gridSize && !cellsToVisit.contains( (y, x + 1) ) && grid[y][x + 1] < 1)
+            if (x + 1 < gridSize && !cellsToVisit.contains( (y, x + 1) ) && !visitedCells.contains( (y, x + 1) ))
             {
                 cellsToVisit.add((y,x + 1));
             }
-            if (y + 1 < gridSize && !cellsToVisit.contains( (y + 1, x) ) && grid[y + 1][x] < 1 )
+            if (y + 1 < gridSize && !cellsToVisit.contains( (y + 1, x) ) && !visitedCells.contains( (y, x + 1) ))
             {
                 cellsToVisit.add((y + 1,x));
             }
-                if (x - 1 >= 0 && !cellsToVisit.contains( (y, x - 1) ) && grid[y][x - 1] < 1 )
+                if (x - 1 >= 0 && !cellsToVisit.contains( (y, x - 1) ) && !visitedCells.contains( (y, x + 1) ))
             {
                 cellsToVisit.add((y,x - 1));
             }
